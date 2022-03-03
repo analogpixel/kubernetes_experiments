@@ -4,6 +4,10 @@ default:
 alias bc := build_cluster
 alias dc := delete_cluster
 
+build_apache:
+  cd docker_apache; docker build -t localhost:5000/apache_ssl_test .
+  cd docker_apache; docker push localhost:5000/apache_ssl_test
+
 delete_cluster:
   kind delete cluster
   docker kill kind-registry
@@ -43,4 +47,5 @@ build_cluster:
   just create_registry 
   just create_cluster
   just connect_registry
+  just install_cert_manager
 

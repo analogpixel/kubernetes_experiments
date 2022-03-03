@@ -1,3 +1,24 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: test-selfsigned
+  namespace: default
+spec:
+  selfSigned: {}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: selfsigned-cert
+  namespace: default
+spec:
+  dnsNames:
+    - example.com
+  secretName: apache-cert
+  issuerRef:
+    name: test-selfsigned
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,7 +37,36 @@ spec:
         app: application
     spec:
       containers:
-      - image: localhost:5000/myimage
+      - image: localhost:5000/apache_ssl_test
         name: application
         ports:
           - containerPort: 80
+            name: http
+          - containerPort: 443
+            name: https
+        volumeMounts:
+        - mountPath: /certs
+          name: apache-ssl-secrets
+      volumes:
+        - name: apache-ssl-secrets
+          secret:
+            secretName: apache-cert
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: apache-service
+spec:
+  ports:
+    # Accept traffic sent to port 80
+    - name: web-traffic
+      port: 443
+      targetPort: https
+  selector:
+    # Loadbalance traffic across Pods matching
+    # this label selector
+    app: application
+  # Create an HA proxy in the cloud provider
+  # with an External IP address - *Only supported
+  # by some cloud providers*
+  type: LoadBalancer
