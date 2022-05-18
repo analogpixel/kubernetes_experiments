@@ -9,6 +9,25 @@ delete_cluster:
   docker kill kind-registry
   docker rm kind-registry
 
+#
+# https://prometheus-operator.dev/docs/operator/design/
+# https://github.com/prometheus-operator/prometheus-operator
+# https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/troubleshooting.md
+#
+install_operator:
+  #!/usr/local/bin/bash
+  if [ ! -f bundle.yaml ] 
+  then
+   wget https://github.com/prometheus-operator/prometheus-operator/releases/download/v0.56.2/bundle.yaml
+  fi
+  KUBECONFIG=${HOME}/.kind_config
+  # apply the rbac config
+  kubectl apply --context kind-kind -f manifests/po_rbac.yaml
+  # install operator
+  kubectl create --context kind-kind -f bundle.yaml
+  # install prometheus crd which installs prometheus
+  kubectl apply --context kind-kind -f manifests/po_prometheus.yaml
+
 create_registry:
   #!/usr/local/bin/bash
 
