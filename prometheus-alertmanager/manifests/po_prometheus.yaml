@@ -4,9 +4,21 @@ metadata:
   name: prometheus
 spec:
   serviceAccountName: prometheus
-  serviceMonitorNamespaceSelector: {}
-  serviceMonitorSelector: {}
-  podMonitorSelector: {}
+  serviceMonitorNamespaceSelector: {} # auto discover all service monitors accross all namespaces
+  serviceMonitorSelector: {} # auto discover all service monitors in namespaces configured one line above
+  podMonitorNamespaceSelector: {} # auto discover all pod monitors accross all namespaces
+  podMonitorSelector: {} # auto discover all pod monitors in namespaces configured one line above
+  probeSelector: {}
+  probeNamespaceSelector: {}
+  ruleSelector: {}
+  ruleNamespaceSelector: {}
+  replicas: 1
+  logLevel: "debug"
+  enableAdminAPI: true
+  retention: "5d"
+  additionalScrapeConfigs:
+    name: operator-scrape-configs
+    key: scrape-configs.yml
   resources:
     requests:
       memory: 400Mi
