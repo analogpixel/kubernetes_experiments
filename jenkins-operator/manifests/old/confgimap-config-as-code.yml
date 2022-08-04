@@ -6,6 +6,13 @@ metadata:
     type: "Jenkins-Jenkins-config"
 data:
   1-system-message.yaml: |
+    unclassified:
+      gitHubPluginConfig:
+        configs:
+        - credentialsId: "github-secret"
+          manageHooks: false
+          name: "Github"
+        hookUrl: "http://localhost:8080/github-webhook/"
     jenkins:
       systemMessage: "New message New version of Configuration as Code integration works!!!"
       numExecutors: 5
