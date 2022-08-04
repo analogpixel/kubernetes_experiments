@@ -6,6 +6,9 @@ metadata:
     type: "Jenkins-Jenkins-config"
 data:
   1-system-message.yaml: |
+    security:
+      gitHostKeyVerificationConfiguration:
+        sshHostKeyVerificationStrategy: "noHostKeyVerificationStrategy"
     jenkins:
       systemMessage: "New message New version of Configuration as Code integration works!!!"
       numExecutors: 5

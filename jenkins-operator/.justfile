@@ -12,7 +12,7 @@ install_jenkins_operator:
   kubectl --context kind-kind apply -f ~/github_secret.yml
   kubectl --context kind-kind apply -f manifests/confgimap-config-as-code.yml
   kubectl --context kind-kind apply -f manifests/jenkins-operator-config.yml
-  kind get_jenkins_secrets
+  just get_jenkins_secrets
 
 get_jenkins_secrets:
   @echo "---"
