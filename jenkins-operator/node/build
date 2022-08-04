@@ -1,0 +1,2 @@
+docker build -t localhost:5000/custom-node .
+docker push localhost:5000/custom-node
