@@ -9,9 +9,11 @@ alias dc := delete_cluster
 install_jenkins_operator:
   kubectl --context kind-kind apply -f https://raw.githubusercontent.com/jenkinsci/kubernetes-operator/master/config/crd/bases/jenkins.io_jenkins.yaml 
   kubectl --context kind-kind apply -f https://raw.githubusercontent.com/jenkinsci/kubernetes-operator/master/deploy/all-in-one-v1alpha2.yaml
+  sleep 10
   kubectl --context kind-kind apply -f ~/github_secret.yml
   kubectl --context kind-kind apply -f manifests/confgimap-config-as-code.yml
   kubectl --context kind-kind apply -f manifests/jenkins-operator-config.yml
+  sleep 20
   just get_jenkins_secrets
 
 get_jenkins_secrets:
