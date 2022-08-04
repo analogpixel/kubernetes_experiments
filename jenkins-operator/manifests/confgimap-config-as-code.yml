@@ -14,3 +14,32 @@ data:
       numExecutors: 5
       scmCheckoutRetryCount: 2
       mode: NORMAL
+    clouds:
+    - kubernetes:
+      jenkinsTunnel: "jenkins-operator-slave-example.default.svc.cluster.local:50000"
+      jenkinsUrl: "http://jenkins-operator-http-example.default.svc.cluster.local:8080"
+      name: "kubernetes"
+      namespace: "default"
+      retentionTimeout: 15
+      serverUrl: "https://kubernetes.default.svc.cluster.local:443"
+      templates:
+      - containers:
+        - alwaysPullImage: true
+          args: "9999999"
+          command: "sleep"
+          image: "localhost:5000/custom-node"
+          livenessProbe:
+            failureThreshold: 0
+            initialDelaySeconds: 0
+            periodSeconds: 0
+            successThreshold: 0
+            timeoutSeconds: 0
+          name: "custom-node-image"
+          ttyEnabled: true
+          workingDir: "/home/jenkins/agent"
+        id: "e5b1a41b-e715-4055-ac46-7aced2b57837"
+        label: "custom-node"
+        name: "custom-node"
+        namespace: "default"
+        nodeUsageMode: "NORMAL"
+        yamlMergeStrategy: "override"
